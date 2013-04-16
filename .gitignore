@@ -1,0 +1,6 @@
+.idea/*
+app/runtime/*
+app/vendor/*
+web/assets/*
+composer*
+vendor/*
