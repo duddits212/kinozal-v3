@@ -1,19 +1,5 @@
 <?php
 
-Yii::app()->clientScript->registerScript('filters',
-    'function filterGenre (data) {
-            $.fn.yiiListView.update("yw0", {
-                data: $(this).serialize(),
-                complete: function () {
-                        alert("asdf");
-                    },
-                });
-                return false;
-
-    }',
-    CClientScript::POS_HEAD
-);
-
 $this->widget('ext.select2.ESelect2', array(
 	'name' => 'filterRubric',
     'options' => array(
@@ -26,10 +12,8 @@ $this->widget('ext.select2.ESelect2', array(
         'onChange'=>CHtml::ajax(array(
             'type'=>'POST',
             'url'=>Yii::app()->createUrl('/movie/filterByRubric'),
-            'update'=>'#yw0',
-            'dataType' => 'json',
+            'update'=>'#movieIndex',
             'data' => 'js:$("#filterRubric").serialize()',
-            'success'=>'js:filterGenre(event)',
         ))
     ),
     'data' => CHtml::listData(MovieRubricName::model()->findAll(array('order'=>'name')), 'id', 'name')

@@ -36,6 +36,7 @@
  * @property Mpaa $mpaa0
  * @property User $posterU
  * @property MovieTranslation $translation0
+ * @property MovieCountry[] $movieCountries
  * @property MovieFrame[] $movieFrames
  * @property MovieGenre[] $movieGenres
  * @property MoviePerson[] $moviePeople
@@ -98,6 +99,7 @@ class Movie extends CActiveRecord
 			'mpaa0' => array(self::BELONGS_TO, 'Mpaa', 'mpaa'),
 			'posterU' => array(self::BELONGS_TO, 'User', 'poster_uid'),
 			'translation0' => array(self::BELONGS_TO, 'MovieTranslation', 'translation'),
+            'movieCountries' => array(self::HAS_MANY, 'MovieCountry', 'mid'),
 			'movieFrames' => array(self::HAS_MANY, 'MovieFrame', 'mid'),
             'movieFramesCount' => array(self::STAT, 'MovieFrame', 'mid'),
 			'movieGenres' => array(self::HAS_MANY, 'MovieGenre', 'mid'),
@@ -242,7 +244,15 @@ class Movie extends CActiveRecord
         ));
     }
 
-    private function applyFilters(array $rubric, array $genre, array $country) {
+    private function applyFilters() {
+
+        $rubric = unserialize(Yii::app()->user->getState('fltRubric'));
+        $rubric = $rubric ? $rubric : array();
+        $genre = unserialize(Yii::app()->user->getState('fltGenre'));
+        $genre = $genre ? $genre : array();
+        $country = unserialize(Yii::app()->user->getState('fltCountry'));
+        $country = $country ? $country : array();
+
         $criteria = new CDbCriteria;
         $sort = new CSort('Movie');
         $sort->attributes = array('caption','orig_caption','post_date','imdb_rating');
@@ -250,16 +260,38 @@ class Movie extends CActiveRecord
         $sort->applyOrder($criteria);
         $together = array();
         $where_string='';
-        //array_push($rubric, '203');
 
-        for ($i=0; $i<count($rubric); $i++) {
+        if (count($rubric)>0)
             array_push($together, 'movieRubrics');
+        for ($i=0; $i<count($rubric); $i++) {
             if ($where_string == '') {
                 $where_string = 'rid=' . $rubric[$i] . ' ';
             } else {
                 $where_string .= 'or rid=' . $rubric[$i] . ' ';
             }
         }
+
+        if (count($genre)>0)
+            array_push($together, 'movieGenres');
+        for ($i=0; $i<count($genre); $i++) {
+            if ($where_string == '') {
+                $where_string = 'rid=' . $genre[$i] . ' ';
+            } else {
+                $where_string .= 'or rid=' . $genre[$i] . ' ';
+            }
+        }
+
+        if (count($country)>0)
+            array_push($together, 'movieCountries');
+        for ($i=0; $i<count($country); $i++) {
+            if ($where_string == '') {
+                $where_string = 'rid=' . $country[$i] . ' ';
+            } else {
+                $where_string .= 'or rid=' . $country[$i] . ' ';
+            }
+        }
+
+
 
         $criteria->with = $together;
         $criteria->together = true;
@@ -274,24 +306,16 @@ class Movie extends CActiveRecord
 
     public function filterByRubric(array $rubric = array()) {
         Yii::app()->user->setState('fltRubric', serialize($rubric));
-        $genre = unserialize(Yii::app()->user->getState('fltGenre'));
-		$genre = $genre ? $genre : array();
-        $country = unserialize(Yii::app()->user->getState('fltCountry'));
-		$country = $country ? $country : array();
-        return $this->applyFilters($rubric, $genre, $country);
+        return $this->applyFilters();
     }
 
     public function filterByGenre(array $genre = array()) {
-        $rubric = unserialize(Yii::app()->user->getState('fltRubric'));
         Yii::app()->user->setState('fltGenre', serialize($genre));
-        $country = unserialize(Yii::app()->user->getState('fltCountry'));
-        return $this->applyFilters($rubric, $genre, $country);
+        return $this->applyFilters();
     }
 
     public function filterByCountry(array $country = array()) {
-        $rubric = unserialize(Yii::app()->user->getState('fltRubric'));
-        $genre = unserialize(Yii::app()->user->getState('fltGenre'));
         Yii::app()->user->setState('fltCountry', serialize($country));
-        return $this->applyFilters($rubric, $genre, $country);
+        return $this->applyFilters();
     }
 }

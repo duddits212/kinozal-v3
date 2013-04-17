@@ -32,7 +32,7 @@
 //                    array('label'=>'Contact','url'=>array('/site/contact')),
                     array('label'=>'Login','url'=>array('/user/user/login'),'visible'=>user()->isGuest),
                     array('label'=>'Register','url'=>array('/registration/registration'),'visible'=>user()->isGuest),
-                    array('label'=>'Профиль','url'=>array('/profile/profile/view'), 'visible'=>!user()->isGuest),
+                    array('label'=>'Профиль','url'=>array('/profile/profile/view'), 'visible'=>!user()->isGuest), // , 'active'=>true),
                     array('label'=>'Админка','url'=>array('/adm/country/admin'),'visible'=>user()->hasRole('Admin-zone')),
 //                    array('label'=>'Logout ('.user()->name.')','url'=>array('/site/logout'),'visible'=>!user()->isGuest));
                     array('label'=>'Выйти','url'=>array('/site/logout'),'visible'=>!user()->isGuest));

@@ -134,6 +134,10 @@ class MovieController extends Controller
             if (!isset($_GET['page'])) {
                 $_GET['page']=1;
             }
+        } else {
+            Yii::app()->user->setState('fltRubric', NULL);
+            Yii::app()->user->setState('fltGenre', NULL);
+            Yii::app()->user->setState('fltCountry', NULL);
         }
 
 		if (isset($_GET['page'])) {
@@ -151,30 +155,55 @@ class MovieController extends Controller
 				$_GET['sort'] = $sort;
             }
         }
-//        if (!Yii::app()->request->isAjaxRequest) {
-//            $this->renderPartial('index',
-//                array('dataProvider'=>Movie::model()->searchByFlavor($id)),
-//            );
-//        } else {
+        if (!Yii::app()->request->isAjaxRequest) {
+            $this->render('index',
+                array('dataProvider'=>Movie::model()->searchByFlavor($id))
+            );
+        } else {
             $this->render('index', array(
                 'dataProvider'=>Movie::model()->searchByFlavor($id),
             ));
-//        }
+        }
     }
 
-    public function actionFilterByRubric($filterRubric = NULL) {
-
-        if ($filterRubric !== NULL) {
-            $filterRubric = unserialize($filterRubric);
-        } else {
+    public function actionFilterByRubric() {
+        $filterRubric = Yii::app()->request->getPost('filterRubric');
+        if ($filterRubric === NULL) {
             $filterRubric = array();
         }
-        $this->renderPartial('index', array(
-            'dataProvider'=>Movie::model()->filterByRubric($filterRubric),
-        ));
+        if (!Yii::app()->request->isAjaxRequest) {
+            $this->renderPartial('index',
+                array('dataProvider'=>Movie::model()->filterByRubric($filterRubric))
+            );
+        }
     }
 
-	/**
+    public function actionFilterByGenre() {
+        $filterRubric = Yii::app()->request->getPost('filterGenre');
+        if ($filterRubric === NULL) {
+            $filterRubric = array();
+        }
+        if (!Yii::app()->request->isAjaxRequest) {
+            $this->renderPartial('index',
+                array('dataProvider'=>Movie::model()->filterByGenre($filterRubric))
+            );
+        }
+    }
+
+    public function actionFilterByCountry() {
+        $filterRubric = Yii::app()->request->getPost('filterCountry');
+        if ($filterRubric === NULL) {
+            $filterRubric = array();
+        }
+        if (!Yii::app()->request->isAjaxRequest) {
+            $this->renderPartial('index',
+                array('dataProvider'=>Movie::model()->filterByCountry($filterRubric))
+            );
+        }
+    }
+
+
+    /**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
