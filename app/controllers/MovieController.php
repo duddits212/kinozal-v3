@@ -171,7 +171,7 @@ class MovieController extends Controller
         if ($filterRubric === NULL) {
             $filterRubric = array();
         }
-        if (!Yii::app()->request->isAjaxRequest) {
+        if (Yii::app()->request->isAjaxRequest) {
             $this->renderPartial('index',
                 array('dataProvider'=>Movie::model()->filterByRubric($filterRubric))
             );
@@ -183,7 +183,7 @@ class MovieController extends Controller
         if ($filterRubric === NULL) {
             $filterRubric = array();
         }
-        if (!Yii::app()->request->isAjaxRequest) {
+        if (Yii::app()->request->isAjaxRequest) {
             $this->renderPartial('index',
                 array('dataProvider'=>Movie::model()->filterByGenre($filterRubric))
             );
@@ -195,7 +195,7 @@ class MovieController extends Controller
         if ($filterRubric === NULL) {
             $filterRubric = array();
         }
-        if (!Yii::app()->request->isAjaxRequest) {
+        if (Yii::app()->request->isAjaxRequest) {
             $this->renderPartial('index',
                 array('dataProvider'=>Movie::model()->filterByCountry($filterRubric))
             );

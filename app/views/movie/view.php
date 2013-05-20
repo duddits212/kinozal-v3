@@ -126,6 +126,7 @@ $this->widget('comments.widgets.ECommentsListWidget', array(
 
 echo '<hr />';
 
+/*
 if ($model->opinionsCount>0) {
 	$criteria = new CDbCriteria();
 	$criteria->condition = 'mid = :mid';
@@ -149,3 +150,4 @@ if ($model->opinionsCount>0) {
 	));
 
 }
+*/

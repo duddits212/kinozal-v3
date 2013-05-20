@@ -19,8 +19,6 @@ $this->widget('ext.select2.ESelect2', array(
     'data' => CHtml::listData(MovieRubricName::model()->findAll(array('order'=>'name')), 'id', 'name')
 ));
 
-
-
 ?><br />
 
 <?php
@@ -34,7 +32,7 @@ $this->widget('ext.select2.ESelect2', array(
 */
     $this->widget('ext.select2.ESelect2', array(
 //        'selector'=>'#inputGenre',
-        'name' => 'inputGenreN',
+        'name' => 'filterGenre',
         'attribute' => 'gid',
         'options' => array(
            'allowClear' => true,
@@ -43,6 +41,12 @@ $this->widget('ext.select2.ESelect2', array(
         ),
         'htmlOptions' => array(
             'multiple'=>'multiple',
+            'onChange'=>CHtml::ajax(array(
+                'type'=>'POST',
+                'url'=>Yii::app()->createUrl('/movie/filterByGenre'),
+                'update'=>'#movieIndex',
+                'data' => 'js:$("#filterGenre").serialize()',
+            ))
         ),
         'data' => CHtml::listData(MovieGenreName::model()->findAll(array('order'=>'name')), 'id', 'name')
     ));
@@ -53,7 +57,7 @@ $this->widget('ext.select2.ESelect2', array(
 <?php
 //    $country = new Country();
     $this->widget('ext.select2.ESelect2', array(
-         'name' => 'selectInput3',
+         'name' => 'filterCountry',
          'options' => array(
             'allowClear' => true,
             'width' => '100%',
@@ -61,6 +65,12 @@ $this->widget('ext.select2.ESelect2', array(
          ),
         'htmlOptions' => array(
             'multiple'=>'multiple',
+            'onChange'=>CHtml::ajax(array(
+                'type'=>'POST',
+                'url'=>Yii::app()->createUrl('/movie/filterByCountry'),
+                'update'=>'#movieIndex',
+                'data' => 'js:$("#filterCountry").serialize()',
+            ))
         ),
         'data' => CHtml::listData(Country::model()->findAll(array('order'=>'name')), 'id', 'name')
     ));

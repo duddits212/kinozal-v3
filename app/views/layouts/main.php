@@ -55,8 +55,8 @@
             </div>
 
             <div class="well sidebar-nav right">
-                <?php $this->widget('LastOpinions'); ?>
-                <?php $this->widget('LastRatings'); ?>
+                <?php //$this->widget('LastOpinions'); ?>
+                <?php //$this->widget('LastRatings'); ?>
             </div>
 
             <div class="content fixed-fixed">

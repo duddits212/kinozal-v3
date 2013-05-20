@@ -275,9 +275,9 @@ class Movie extends CActiveRecord
             array_push($together, 'movieGenres');
         for ($i=0; $i<count($genre); $i++) {
             if ($where_string == '') {
-                $where_string = 'rid=' . $genre[$i] . ' ';
+                $where_string = 'gid=' . $genre[$i] . ' ';
             } else {
-                $where_string .= 'or rid=' . $genre[$i] . ' ';
+                $where_string .= 'or gid=' . $genre[$i] . ' ';
             }
         }
 
@@ -285,9 +285,9 @@ class Movie extends CActiveRecord
             array_push($together, 'movieCountries');
         for ($i=0; $i<count($country); $i++) {
             if ($where_string == '') {
-                $where_string = 'rid=' . $country[$i] . ' ';
+                $where_string = 'cid=' . $country[$i] . ' ';
             } else {
-                $where_string .= 'or rid=' . $country[$i] . ' ';
+                $where_string .= 'or cid=' . $country[$i] . ' ';
             }
         }
 
