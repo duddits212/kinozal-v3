@@ -56,7 +56,7 @@ class jwplayer extends CWidget {
             Yii::app()->clientScript->registerScriptFile($baseUrl . '/jwplayer.js', CClientScript::POS_HEAD);
             if(!empty($this->key)) Yii::app()->clientScript->registerScript('jwplayerkey', 'jwplayer.key="'.$this->key.'";', CClientScript::POS_HEAD);
         } else {
-            throw new Exception('EjwPlayer - Error: Couldn\'t find assets to publish.');
+            throw new Exception('jwlayer - Error: Couldn\'t find assets to publish.');
         }
     }
 
