@@ -21,33 +21,36 @@
     <?php endif; ?>
 </head>
 
-<body class="layout-main">>
-    <div class="container-fluid" id="page">
-        <div class="row-fluid">
 
-            <?php
-                $items=array(
+<?php
+// навбар
+$items=array(
 //                    array('label'=>'Home','url'=>array('/movie/index')),
 //                    array('label'=>'About','url'=>array('/site/page','view'=>'about')),
 //                    array('label'=>'Contact','url'=>array('/site/contact')),
-                    array('label'=>'Login','url'=>array('/user/user/login'),'visible'=>user()->isGuest),
-                    array('label'=>'Register','url'=>array('/registration/registration'),'visible'=>user()->isGuest),
-                    array('label'=>'Профиль','url'=>array('/profile/profile/view'), 'visible'=>!user()->isGuest), // , 'active'=>true),
-                    array('label'=>'Админка','url'=>array('/adm/country/admin'),'visible'=>user()->hasRole('Admin-zone')),
+    array('label'=>'Login','url'=>array('/user/user/login'),'visible'=>user()->isGuest),
+    array('label'=>'Register','url'=>array('/registration/registration'),'visible'=>user()->isGuest),
+    array('label'=>'Профиль','url'=>array('/profile/profile/view'), 'visible'=>!user()->isGuest), // , 'active'=>true),
+    array('label'=>'Админка','url'=>array('/adm/country/admin'),'visible'=>user()->hasRole('Admin-zone')),
 //                    array('label'=>'Logout ('.user()->name.')','url'=>array('/site/logout'),'visible'=>!user()->isGuest));
-                    array('label'=>'Выйти','url'=>array('/site/logout'),'visible'=>!user()->isGuest));
-                $items=array_merge(MovieFlavor::model()->menu(), $items);
-                $this->widget('bootstrap.widgets.TbNavbar', array(
+    array('label'=>'Выйти','url'=>array('/site/logout'),'visible'=>!user()->isGuest));
+$items=array_merge(MovieFlavor::model()->menu(), $items);
+$this->widget('bootstrap.widgets.TbNavbar', array(
     //                'collapse'=>true,
     //                'type'=>'inverse',
-                    //        'brand'=>'kinozal.tomsk.ru',
-                    'items'=>array(
-                        array(
-                            'class'=>'bootstrap.widgets.TbMenu',
-                            'items'=>$items,
-                        ),
-                    ),
-            )); ?>
+    //        'brand'=>'kinozal.tomsk.ru',
+    'items'=>array(
+        array(
+            'class'=>'bootstrap.widgets.TbMenu',
+            'items'=>$items,
+        ),
+    ),
+)); ?>
+
+
+<body class="layout-main">
+    <div class="container-fluid" id="page">
+        <div class="row-fluid">
 
             <div class="well sidebar-nav left">
                 <?php $this->widget('SearchBox'); ?>
@@ -56,7 +59,7 @@
 
             <div class="well sidebar-nav right">
                 <?php //$this->widget('LastOpinions'); ?>
-                <?php //$this->widget('LastRatings'); ?>
+                <?php $this->widget('LastRatings'); ?>
             </div>
 
             <div class="content fixed-fixed">

@@ -52,10 +52,10 @@ $this->widget('zii.widgets.CDetailView', array(
 	'itemTemplate'=>'<div class="{class}"><div class="label">{label}</div><div class="value">{value}</div></div>',
     'attributes'=>array(
     //		'id',
-        'caption',
-        'orig_caption',
+        array('label'=>'Название', 'value'=>CHtml::encode($model->caption)),
+        array('label'=>'Оригинальное название', 'value'=>CHtml::encode($model->orig_caption)),
     //		'short_desc',
-        'description',
+        array('label'=>'О фильме', 'value'=>CHtml::encode($model->description)),
         array('label'=>'Производство:', 'value'=> substr($model->produce_date,0,4)),
         'post_date',
         array('label'=>'Добавил', 'value'=>$model->posterU->username),
@@ -118,6 +118,12 @@ if ($model->waiting == 1) {
 // Добавить актеров -- отдельный портлет
 
 // FIXME: Вывод комментариев, их редактирование, модерацию сделать отдельным портлетом
+
+//$this->widget('MovieLinks');
+$this->renderPartial('_links',array(
+    'movie'=>$model,
+    'links'=>$model->files,
+));
 
 echo '<hr />';
 $this->widget('comments.widgets.ECommentsListWidget', array(

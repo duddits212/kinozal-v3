@@ -8,10 +8,12 @@
     <title><?php echo e($this->pageTitle); ?></title>
 
     <?php //app()->bootstrap->registerCoreScripts(); ?>
-    <?php app()->less->register(); ?>
+    <?php //app()->less->register(); ?>
+    <?php css('css/main.css'); ?>
+    <?php css('css/responsive.css'); ?>
 </head>
-
 <body>
+
 <?php
     $this->widget('bootstrap.widgets.TbNavbar', array(
     //    'type'=>'inverse', // null or 'inverse'

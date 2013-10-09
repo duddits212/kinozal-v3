@@ -17,7 +17,7 @@ class LastRatings extends CPortlet
         $this->contentCssClass='lastRatings';
         $this->titleCssClass='lastRatingsTitle';
         $this->decorationCssClass='lastRatingsDecoration';
-        $this->title='последние оценки';
+        $this->title='Крайние оценки';
         $this->id='lastRatings';
         parent::init();
     }
