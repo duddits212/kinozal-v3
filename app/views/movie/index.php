@@ -8,10 +8,6 @@ if (user()->hasRole('Admin-zone')) {
         array('label'=>'Manage Movie', 'url'=>array('admin')),
     );
 }
-?>
-
-<?php 
-
 
 $this->widget('zii.widgets.CListView', array(
     'dataProvider'=>$dataProvider,

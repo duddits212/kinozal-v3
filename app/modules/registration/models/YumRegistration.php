@@ -1,4 +1,4 @@
-<?
+<?php
 
 class YumRegistration extends YumActiveRecord {
 	const REG_DISABLED = 0;
@@ -9,5 +9,3 @@ class YumRegistration extends YumActiveRecord {
 	const REG_NO_PASSWORD = 5; 
 	const REG_NO_PASSWORD_ADMIN_CONFIRMATION = 6;
 }
-
-?>

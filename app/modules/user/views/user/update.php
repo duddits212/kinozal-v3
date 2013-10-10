@@ -1,4 +1,4 @@
-<?
+<?php
 
 if(empty($tabularIdx))
 {
@@ -17,4 +17,3 @@ echo $this->renderPartial('/user/_form', array(
 			'profile'=>$profile,
 			'tabularIdx'=> isset($tabularIdx) ? $tabularIdx : 0)
 		);
-?>

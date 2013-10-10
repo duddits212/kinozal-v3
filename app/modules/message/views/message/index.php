@@ -1,4 +1,4 @@
-<?
+<?php
 $this->title = Yum::t('My inbox');
 
 $this->breadcrumbs=array(
@@ -35,4 +35,4 @@ $this->widget('zii.widgets.grid.CGridView', array(
 					'template' => '{view}{delete}',
 					),
 				),
-				)); ?>
+				));

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * YumPasswordValidator class file.
@@ -170,4 +170,4 @@ class YumPasswordValidator extends CValidator
   }
 
 }
-?>
+

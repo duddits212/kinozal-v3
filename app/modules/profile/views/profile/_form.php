@@ -1,4 +1,4 @@
-<?
+<?php
 if(Yum::module()->rtepath != false)
 Yii::app()->clientScript-> registerScriptFile(Yum::module()->rtepath);                                                                         
 if(Yum::module()->rteadapter != false)
@@ -36,4 +36,4 @@ foreach($profile->loadProfileFields() as $field) {
 
 	echo CHtml::closeTag('div');
 }
-?>
+

@@ -14,4 +14,3 @@ if(count($messages) > 0) {
 				'application.modules.message.views.message.new_messages_dialog', array(
 					'message' => $message));
 }
-?>

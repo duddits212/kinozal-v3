@@ -1,4 +1,4 @@
-<?
+<?php
 $this->title = Yum::t(ucfirst($user->username) .'\'s friends');
 $this->breadcrumbs = array('Friends', $user->username);
 
@@ -117,5 +117,5 @@ echo '</table>';
 */
 
 $this->endWidget();
-?>
+
 

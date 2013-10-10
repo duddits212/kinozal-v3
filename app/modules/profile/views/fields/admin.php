@@ -5,9 +5,9 @@ $this->breadcrumbs=array(
 	Yii::t("UserModule.user", 'Profile fields')=>array('admin'),
 	Yii::t("UserModule.user", 'Manage'));
 
-?>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+
+$this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$dataProvider,
 	'columns'=>array(
 		'position',
@@ -38,4 +38,4 @@ $this->breadcrumbs=array(
 			'class'=>'CButtonColumn',
 		),
 	),
-)); ?>
+));

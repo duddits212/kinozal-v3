@@ -213,8 +213,8 @@ class YumAuthController extends YumController {
 				if(!$this->loginForm->hasErrors())
 					$this->loginForm->addError("password",Yum::t('Username or Password is incorrect'));
 				break;
-				return false;
 		}
+        return false;
 	}
 
 	public function loginByEmail() {

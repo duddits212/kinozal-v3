@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Base form model class
  * @author tomasz.suchanek
@@ -10,4 +10,3 @@ abstract class YumFormModel extends CFormModel
 {
 	
 }
-?>

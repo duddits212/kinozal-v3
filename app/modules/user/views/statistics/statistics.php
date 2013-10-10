@@ -1,4 +1,4 @@
-<?
+<?php
 $this->title = Yum::t('Statistics');
 
 $this->breadcrumbs = array(
@@ -28,4 +28,4 @@ printf($f, Yum::t('Admin users'), $admin_users);
 //printf($f, Yum::t('Messages'), $messages);
 printf($f, Yum::t('Different users logged in today'), $logins_today);
 echo '</table>';
-?>
+

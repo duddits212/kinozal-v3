@@ -1,1 +1,1 @@
-<?php echo Yum::t('Your membership has expired'); ?>
+<?php echo Yum::t('Your membership has expired');

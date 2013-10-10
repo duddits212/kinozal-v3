@@ -1,4 +1,4 @@
-<?
+<?php
 class YumWebUser extends CWebUser
 {
 	public $_data;
@@ -159,4 +159,4 @@ public function getRoles() {
 			return Yii::app()->user->data()->superuser;
 	}
 }
-?>
+

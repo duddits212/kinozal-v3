@@ -1,4 +1,4 @@
-<?
+<?php
 $this->title = Yum::t('Sent messages');
 
 $this->breadcrumbs=array(
@@ -28,4 +28,4 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			'template' => '{view}',
 		),
 	),
-)); ?>
+));

@@ -1,4 +1,4 @@
-<?
+<?php
 if($messages) {
 	echo '<table class="new_messages">';
 	printf('<th>%s</th><th>%s</th>',
@@ -13,4 +13,3 @@ if($messages) {
 	echo '</table>';
 } else
 echo Yum::t('No new messages'); 
-?>

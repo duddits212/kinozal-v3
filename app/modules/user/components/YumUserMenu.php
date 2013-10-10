@@ -1,4 +1,4 @@
-<?
+<?php
 Yii::import('zii.widgets.CPortlet');
 
 class YumUserMenu extends CPortlet {
@@ -78,7 +78,7 @@ class YumUserMenu extends CPortlet {
 				);
 	}
 }
-?>
+
 
 
 

@@ -1,4 +1,4 @@
-<?
+<?php
 if(Yum::module('message')->messageSystem != YumMessage::MSG_NONE 
 		&& $model->id != Yii::app()->user->id) {
 
@@ -13,4 +13,3 @@ echo '</div>';
 	echo CHtml::link(Yum::t('Write a message to this User'), '',
 			array('onclick'=>"$('#write_a_message').toggle(500);"));
 }
-?>

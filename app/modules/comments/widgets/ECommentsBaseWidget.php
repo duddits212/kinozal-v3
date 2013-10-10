@@ -98,4 +98,4 @@ class ECommentsBaseWidget extends CJuiWidget
                 return $this->model->primaryKey;
         }
 }
-?>
+

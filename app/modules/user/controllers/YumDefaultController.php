@@ -1,4 +1,4 @@
-<?
+<?php
 
 class YumDefaultController extends YumController {
 	
@@ -23,5 +23,3 @@ class YumDefaultController extends YumController {
 		$this->redirect($this->module->returnLogoutUrl);
 	}
 }
-
-?>

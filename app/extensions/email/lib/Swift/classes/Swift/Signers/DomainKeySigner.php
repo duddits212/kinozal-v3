@@ -501,7 +501,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
             var_dump($this->_canonData, base64_encode($sig2), base64_encode($signature));
 
             return $sig2;
-            return $signature;
+            //return $signature;
         }
 
         return '';

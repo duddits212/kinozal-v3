@@ -1,4 +1,4 @@
-<?
+<?php
 $profiles = Yum::hasModule('profile');
 
 if(Yum::module()->loginType & UserModule::LOGIN_BY_EMAIL & $profiles)
@@ -133,4 +133,4 @@ if(Yii::app()->user->isAdmin())
 				'submit' => array('//profile/profile/view', 'id' => $model->id)));
 
 
-	?>
+

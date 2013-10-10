@@ -1,4 +1,4 @@
-<?
+<?php
 Yii::import('zii.widgets.CPortlet');
 
 class LoginWidget extends CPortlet
@@ -18,4 +18,3 @@ class LoginWidget extends CPortlet
 		$this->render($this->view, array('model' => new YumUserLogin()));
 	}
 } 
-?>

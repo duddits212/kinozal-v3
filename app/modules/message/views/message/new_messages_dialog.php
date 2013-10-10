@@ -1,4 +1,4 @@
-<?
+<?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 			'id'=>rand(1, 999999),
 			'options'=>array(
@@ -33,4 +33,4 @@ foreach($messages as $message) {
 }
 echo '</table>';
 $this->endWidget('zii.widgets.jui.CJuiDialog');
-?>
+

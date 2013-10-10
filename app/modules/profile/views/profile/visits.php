@@ -1,4 +1,4 @@
-<?
+<?php
 $this->title = Yum::t('All Profile visits in the system');
 
 $this->breadcrumbs = array(
@@ -33,4 +33,4 @@ $this->widget('zii.widgets.grid.CGridView', array(
 						$data->timestamp_last_visit)',
 					),
 				'num_of_visits',
-				))); ?>
+				)));

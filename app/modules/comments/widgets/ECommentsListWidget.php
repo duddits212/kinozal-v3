@@ -63,4 +63,4 @@ class ECommentsListWidget extends ECommentsBaseWidget
             Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id, $js);
 	}
 }
-?>
+

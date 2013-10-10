@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Base class for all active records
  * @author tomasz.suchanek
@@ -56,4 +56,4 @@ abstract class YumActiveRecord extends CActiveRecord {
 	}
 
 }
-?>
+

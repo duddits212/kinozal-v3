@@ -8,6 +8,4 @@ $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$model->search(),
 	'sortableAttributes' => array('username', 'createtime', 'status', 'lastvisit', 'avatar'),
 	'itemView' => '_view',
-)); ?>
-
-
+));

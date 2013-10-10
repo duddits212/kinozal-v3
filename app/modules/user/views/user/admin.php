@@ -1,4 +1,4 @@
-<?
+<?php
 $this->title = Yum::t('Manage users');
 
 $this->breadcrumbs = array(
@@ -58,8 +58,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
 			array(
 				'class'=>'CButtonColumn',
 			),
-))); ?>
+)));
 
-<?php echo CHtml::link(Yum::t('Create new User'), array(
-			'//user/user/create')); ?>
+echo CHtml::link(Yum::t('Create new User'), array(
+			'//user/user/create'));
 

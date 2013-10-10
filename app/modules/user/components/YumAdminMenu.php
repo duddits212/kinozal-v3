@@ -1,4 +1,4 @@
-<?
+<?php
 
 Yii::import('zii.widgets.CPortlet');
 
@@ -78,7 +78,7 @@ class YumAdminMenu extends CPortlet {
 
 	}
 }
-?>
+
 
 
 

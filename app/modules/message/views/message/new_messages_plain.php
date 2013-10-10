@@ -16,5 +16,3 @@ if($messages) {
 	echo '</ul>';
 	echo '</div>';
 } 
-
-?>

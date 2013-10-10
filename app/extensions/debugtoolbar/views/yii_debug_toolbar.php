@@ -1,5 +1,5 @@
 <div id="yii-debug-toolbar-switcher">
-    <a href="javascript:;//"><?php echo YiiDebug::t('TOOLBAR')?></a>
+    <a href="javascript://"><?php echo YiiDebug::t('TOOLBAR')?></a>
 </div>
 <div id="yii-debug-toolbar" style="display:none;">
     <div id="yii-debug-toolbar-buttons">
@@ -7,7 +7,7 @@
             <li><br />&nbsp;<br /></li>
             <?php foreach ($panels as $panel): ?>
             <li class="yii-debug-toolbar-button <?php echo $panel->id ?>">
-                <a class="yii-debug-toolbar-link" href="javascript:;//" id="yii-debug-toolbar-tab-<?php echo $panel->id ?>">
+                <a class="yii-debug-toolbar-link" href="javascript://" id="yii-debug-toolbar-tab-<?php echo $panel->id ?>">
                     <?php echo CHtml::encode($panel->menuTitle); ?>
                     <?php if (!empty($panel->menuSubTitle)): ?>
                     <br />
@@ -30,7 +30,7 @@
     <?php foreach ($panels as $panel) : ?>
     <div id="<?php echo $panel->id ?>" class="yii-debug-toolbar-panel">
         <div class="yii-debug-toolbar-panel-title">
-        <a href="javascript:;//" class="yii-debug-toolbar-panel-close"><?php echo YiiDebug::t('Close')?></a>
+        <a href="javascript://" class="yii-debug-toolbar-panel-close"><?php echo YiiDebug::t('Close')?></a>
         <h3>
             <?php echo CHtml::encode($panel->title); ?>
             <?php if ($panel->subTitle) : ?>

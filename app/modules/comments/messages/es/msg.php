@@ -32,4 +32,3 @@ return array(
     'Deleted'=>'Borrado',
     'Link'=>'Enlace',
 );
-?>

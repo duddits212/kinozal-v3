@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * This class file holds static encryption functions used by Yum.
  *
@@ -119,4 +119,4 @@ class YumEncrypt
 			return bin2hex(substr($output, 0, $key_length));
 	}
 }	
-?>
+

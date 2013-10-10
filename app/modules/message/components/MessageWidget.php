@@ -1,4 +1,4 @@
-<?
+<?php
 Yii::import('application.modules.user.UserModule');
 Yii::import('zii.widgets.CPortlet');
 
@@ -29,4 +29,4 @@ class MessageWidget extends CPortlet
 		}
 	}
 } 
-?>
+

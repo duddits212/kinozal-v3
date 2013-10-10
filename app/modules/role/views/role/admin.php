@@ -6,9 +6,7 @@ $this->breadcrumbs=array(
 	Yum::t('Manage'),
 );
 
-?>
-
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$dataProvider,
 	'columns'=>array(
 		array(
@@ -23,4 +21,4 @@ $this->breadcrumbs=array(
 			'class'=>'CButtonColumn',
 		),
 	),
-)); ?>
+));

@@ -1,4 +1,4 @@
-<?
+<?php
 $this->title = Yum::t('Request friendship for user {username}', array(
 			'{username}' => $invited->username));
 $this->breadcrumbs = array(
@@ -28,5 +28,5 @@ $friendship_status = $invited->isFriendOf(Yii::app()->user->id);
 		echo CHtml::submitButton(Yum::t('Send invitation'));
 		echo CHtml::endForm();
 	}
-?>
+
 

@@ -34,4 +34,3 @@ return array(
     'Deleted'=>'Удален',
     'Link'=>'Ссылка',
 );
-?>

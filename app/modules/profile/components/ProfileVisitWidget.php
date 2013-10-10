@@ -1,4 +1,4 @@
-<?
+<?php
 Yii::import('application.modules.user.UserModule');
 Yii::import('zii.widgets.CPortlet');
 
@@ -30,4 +30,4 @@ class ProfileVisitWidget extends CPortlet
 						'visits' => Yii::app()->user->data()->visits));
 	}
 } 
-?>
+

@@ -1,4 +1,4 @@
-<?
+<?php
 Yii::import('zii.widgets.grid.CGridView');
 
 /**
@@ -34,4 +34,4 @@ class CsvGridView extends CGridView
 	}
 
 }
-?>
+

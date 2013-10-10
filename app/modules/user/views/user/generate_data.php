@@ -31,4 +31,4 @@ printf('Generate %s %s users <br />
 echo '<br />';
 echo CHtml::submitButton(Yum::t('Generate'));
 echo CHtml::endForm();
-?>
+

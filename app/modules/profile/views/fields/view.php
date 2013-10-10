@@ -6,9 +6,7 @@ $this->breadcrumbs=array(
 	Yii::t("UserModule.user", 'Profile fields')=>array('admin'),
 	Yii::t("UserModule.user", $model->title));
 
-?>
-
-<?php $this->widget('zii.widgets.CDetailView', array(
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id',
@@ -27,4 +25,4 @@ $this->breadcrumbs=array(
 		'position',
 		'visible',
 	),
-)); ?>
+));

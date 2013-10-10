@@ -14,5 +14,3 @@ if($user->friendship_requests) {
 				'//friendship/friendship/admin'));
 	$this->endWidget();
 }
-?>
-

@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Base controller class
  * @author tomasz.suchanek
@@ -66,4 +66,4 @@ abstract class YumController extends CController {
 		);
 	}	
 }
-?>
+

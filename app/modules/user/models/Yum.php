@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Helper class
  * @author tomasz.suchanek@gmail.com
@@ -166,4 +166,4 @@ class Yum
 	}
 
 }
-?>
+

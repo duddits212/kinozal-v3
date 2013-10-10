@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * This is the model class for table profile field table
  *
@@ -105,4 +105,4 @@ public function rules()
 			return isset($_items[$type]) ? $_items[$type] : false;
 	}
 }
-?>
+

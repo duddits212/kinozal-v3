@@ -1,9 +1,5 @@
 <?php 
 $i = 0;
-$p_list;
-//$listbar["position"] = 'right';
-//$listbar['width'] = '200';
-//$listbar = array('position' => 'right','width' => 200);
 $listbar[0]{'position'} = 'right';
 $listbar[0]{'width'} = '240';
 $listbar[0]{'layout'} = 'basic';
