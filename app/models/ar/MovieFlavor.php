@@ -111,7 +111,7 @@ class MovieFlavor extends CActiveRecord
         foreach ($flavors as $flavor) {
 //            $row[]=$flavor->attributes;
             $row[$i]['label']=$flavor->attributes['label'];
-            $row[$i]['url']=array('movie/flavor&id=' . $flavor->attributes['id'] );
+            $row[$i]['url']=array('/movie/flavor&id=' . $flavor->attributes['id'] );
             $i++;
         }
         return $row;
