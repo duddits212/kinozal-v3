@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="language" content="en" />
+    <meta name="language" content="ru" />
 
     <link rel="icon" href="<?php echo baseUrl('/favicon.ico'); ?>" type="image/x-icon"/>
 
@@ -28,12 +28,13 @@ $items=array(
 //                    array('label'=>'Home','url'=>array('/movie/index')),
 //                    array('label'=>'About','url'=>array('/site/page','view'=>'about')),
 //                    array('label'=>'Contact','url'=>array('/site/contact')),
-    array('label'=>'Login','url'=>array('/user/user/login'),'visible'=>user()->isGuest),
-    array('label'=>'Register','url'=>array('/registration/registration'),'visible'=>user()->isGuest),
-    array('label'=>'Профиль','url'=>array('/profile/profile/view'), 'visible'=>!user()->isGuest), // , 'active'=>true),
+    array('label'=>'Login', 'url'=>array('/user/user/login'),'visible'=>user()->isGuest,'active'=> (Yii::app()->controller->getId() == 'auth')),
+    array('label'=>'Register','url'=>array('/registration/registration'),'visible'=>user()->isGuest,'active'=>(Yii::app()->controller->getId() == 'registration')),
+    array('label'=>'Профиль','url'=>array('/profile/profile/view'), 'visible'=>!user()->isGuest,'active'=>(Yii::app()->controller->getId() == 'profile')),
     array('label'=>'Админка','url'=>array('/adm/country/admin'),'visible'=>user()->hasRole('Admin-zone')),
-//                    array('label'=>'Logout ('.user()->name.')','url'=>array('/site/logout'),'visible'=>!user()->isGuest));
-    array('label'=>'Выйти','url'=>array('/site/logout'),'visible'=>!user()->isGuest));
+    array('label'=>'Выйти','url'=>array('/site/logout'),'visible'=>!user()->isGuest)
+);
+
 $items=array_merge(MovieFlavor::model()->menu(), $items);
 $this->widget('bootstrap.widgets.TbNavbar', array(
     //                'collapse'=>true,
@@ -42,6 +43,7 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
     'items'=>array(
         array(
             'class'=>'bootstrap.widgets.TbMenu',
+//            'type'=>'tabs',
             'items'=>$items,
         ),
     ),

@@ -104,14 +104,14 @@ class MovieFlavor extends CActiveRecord
 
     public function menu() {
         $criteria = new CDbCriteria(array('order'=>'order'));
-
+        $c_id = Yii::app()->request->getParam('id');
         $flavors=MovieFlavor::model()->findAll(array('condition'=>'active=1', 'order'=>'`order`'));
         $row='';
         $i=0;
         foreach ($flavors as $flavor) {
-//            $row[]=$flavor->attributes;
-            $row[$i]['label']=$flavor->attributes['label'];
-            $row[$i]['url']=array('/movie/flavor&id=' . $flavor->attributes['id'] );
+            $row[$i]['label'] = $flavor->attributes['label'];
+            $row[$i]['url'] = Yii::app()->createUrl('/movie/flavor', array('id'=>$flavor->attributes['id']));
+            $row[$i]['active'] = ($flavor->attributes['id'] == $c_id);
             $i++;
         }
         return $row;

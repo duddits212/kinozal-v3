@@ -7,7 +7,6 @@ return array(
         'yiiwheels' => 'vendor.2amigos.yiiwheels',
     ),
 
-
 	// application behaviors
 	'behaviors' => array(
 		// uncomment this if your application is multilingual
@@ -23,6 +22,7 @@ return array(
 
     'import' => array(
         'application.modules.user.models.*',
+        'bootstrap.helpers.TbHtml',
     ),
 
 	// controllers mappings
@@ -33,6 +33,11 @@ return array(
 
 	// application modules
 	'modules' => array(
+
+        'gii' => array(
+            'generatorPaths' => array('bootstrap.gii'),
+        ),
+
 		// uncomment the following to enable the auth module
         /*
 		'auth' => array(
