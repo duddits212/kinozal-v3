@@ -1,4 +1,8 @@
-<?
+<div class="container">
+<div class="span12">
+<div class="row">
+
+<?php
 $this->breadcrumbs=array(
 	Yum::t('Actions')=>array('index'),
 	$model->title,
@@ -17,3 +21,7 @@ $this->breadcrumbs=array(
 		'subject',
 	),
 )); ?>
+
+</div>
+</div>
+</div>

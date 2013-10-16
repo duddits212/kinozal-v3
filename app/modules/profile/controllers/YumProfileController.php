@@ -1,4 +1,4 @@
-<?
+<?php
 
 Yii::import('application.modules.user.controllers.YumController');
 Yii::import('application.modules.user.models.*');
@@ -147,7 +147,7 @@ class YumProfileController extends YumController {
 
 	public function actionAdmin()
 	{
-		$this->layout = Yum::module()->adminLayout;
+		$this->layout = Yum::module('profile')->adminLayout;
 		$model = new YumProfile;
 
 		$dataProvider=new CActiveDataProvider('YumProfile', array(
@@ -160,7 +160,8 @@ class YumProfileController extends YumController {
 		));
 
 		$this->render('admin',array(
-			'dataProvider'=>$dataProvider,'model'=>$model,
-		));
+					'dataProvider'=>$dataProvider,
+					'model'=>$model,
+					));
 	}
 }

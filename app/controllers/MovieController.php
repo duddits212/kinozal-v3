@@ -128,7 +128,7 @@ class MovieController extends Controller
 		));
 	}
 
-    public function actionFlavor($id=1, $page=1, $sort='post_date.desc')
+    public function actionFlavor($id=NULL, $page=1, $sort='post_date.desc')
     {
         if(Yii::app()->request->isAjaxRequest) {
             if (!isset($_GET['page'])) {
@@ -138,6 +138,10 @@ class MovieController extends Controller
             Yii::app()->user->setState('fltRubric', NULL);
             Yii::app()->user->setState('fltGenre', NULL);
             Yii::app()->user->setState('fltCountry', NULL);
+        }
+
+        if (isset($_GET['id'])) {
+            Yii::app()->user->setState('lastFlavor', $id);
         }
 
 		if (isset($_GET['page'])) {

@@ -119,15 +119,23 @@ if ($model->waiting == 1) {
 
 // FIXME: Вывод комментариев, их редактирование, модерацию сделать отдельным портлетом
 
-//$this->widget('MovieLinks');
-$this->renderPartial('_links',array(
-    'movie'=>$model,
-    'links'=>$model->files,
-));
-
-echo '<hr />';
-$this->widget('comments.widgets.ECommentsListWidget', array(
-    'model' => $model,
+$this->widget('bootstrap.widgets.TbTabs', array(
+    'type'=>'tabs',
+    'tabs'=>array(
+        array('label'=>'Ссылки',
+            'content'=>
+                $this->renderPartial('_links',array(
+                    'movie'=>$model,
+                    'links'=>$model->files,
+                ), true),
+            'active'=>true),
+        array('label'=>'Комментарии',
+            'content'=>
+            $this->widget('comments.widgets.ECommentsListWidget', array(
+                'model' => $model,
+            ), true)
+        )
+    )
 ));
 
 echo '<hr />';

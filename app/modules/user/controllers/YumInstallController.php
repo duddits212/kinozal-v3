@@ -1,4 +1,4 @@
-<?
+<?php
 
 class YumInstallController extends YumController
 {
@@ -33,7 +33,20 @@ class YumInstallController extends YumController
 	public function actionInstall()
 	{
 		if ($this->module->debug === true) {
-			if (Yii::app()->request->isPostRequest) {
+		
+			if(!Yii::app()->user instanceof YumWebUser)
+				throw new CHttpException(500, Yum::t('Please make sure that Yii uses the YumWebUser component instead of CWebUser in your config/main.php components section. Please see the installation instructions.'));
+
+			if(!isset(Yii::app()->cache))
+				throw new CHttpException(500, 'Please enable a caching component for yii-user-management to work.');
+
+			if(!isset(Yii::app()->db->tablePrefix))
+				throw new CHttpException(500, 'Please set a table prefix, at least \'\', to your db configuration for yii-user-management to work.');
+
+			if(!version_compare(Yii::getVersion(), '1.1.14', '>='))
+				throw new CHttpException(500, 'Please make sure to use at least Yii version 1.1.14.'); 
+
+						if (Yii::app()->request->isPostRequest) {
 				// A associative array containing the tables to be created.
 				$createdTables = array();
 				if ($db = Yii::app()->db) {
@@ -45,8 +58,6 @@ class YumInstallController extends YumController
 					$tables = array(
 						'userTable',
 						'privacySettingTable',
-						'profileFieldTable',
-						'profileFieldsGroupTable',
 						'profileTable',
 						'profileCommentTable',
 						'profileVisitTable',
@@ -79,9 +90,8 @@ class YumInstallController extends YumController
 					// Create User Table
 					$sql = "CREATE TABLE IF NOT EXISTS `" . $userTable . "` (
 						`id` int unsigned NOT NULL auto_increment,
-						`username` varchar(20) NOT NULL,
-						`password` varchar(128) NOT NULL,
-						`salt` varchar(128) NOT NULL,
+						`username` varchar(255) NOT NULL,
+						`password` char(64) CHARACTER SET latin1 NOT NULL,
 						`activationKey` varchar(128) NOT NULL default '',
 						`createtime` int(11) NOT NULL default '0',
 						`lastvisit` int(11) NOT NULL default '0',
@@ -212,41 +222,12 @@ class YumInstallController extends YumController
 						$db->createCommand($sql)->execute();
 						$createdTables['profile']['privacySettingTable'] = $privacySettingTable;
 
-						// Create Profile Fields Table
-						$sql = "CREATE TABLE IF NOT EXISTS `" . $profileFieldTable . "` (
-							`id` int unsigned NOT NULL auto_increment,
-							`varname` varchar(50) NOT NULL DEFAULT '',
-							`title` varchar(255) NOT NULL DEFAULT '',
-							`hint` text NOT NULL,
-							`field_type` varchar(50) NOT NULL DEFAULT '',
-							`field_size` int(3) NOT NULL default '0',
-							`field_size_min` int(3) NOT NULL default '0',
-							`required` int(1) NOT NULL default '0',
-							`match` varchar(255) NOT NULL DEFAULT '',
-							`range` varchar(255) NOT NULL DEFAULT '',
-							`error_message` varchar(255) NOT NULL DEFAULT '',
-							`other_validator` varchar(255) NOT NULL DEFAULT '',
-							`default` varchar(255) NOT NULL DEFAULT '',
-							`position` int(3) NOT NULL default '0',
-							`visible` int(1) NOT NULL default '0',
-							`related_field_name` varchar(255) NOT NULL DEFAULT '',
-							PRIMARY KEY  (`id`),
-							KEY `varname` (`varname`,`visible`)
-						) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
-
-						$db->createCommand($sql)->execute();
-						$createdTables['profile']['profileFieldTable'] = $profileFieldTable;
-
 						// Create Profiles Table
 						$sql = "CREATE TABLE IF NOT EXISTS `" . $profileTable . "` (
 							`id` int unsigned NOT NULL auto_increment,
 							`user_id` int unsigned NOT NULL,
-							`timestamp` timestamp NOT NULL,
-							`privacy` ENUM('protected', 'private', 'public') NOT NULL,
 							`lastname` varchar(50) NOT NULL default '',
 							`firstname` varchar(50) NOT NULL default '',
-							`show_friends` tinyint(1) DEFAULT 1,
-							`allow_comments` tinyint(1) DEFAULT 1,
 							`email` varchar(255) NOT NULL default '',
 							`street` varchar(255),
 							`city` varchar(255),
@@ -356,12 +337,10 @@ class YumInstallController extends YumController
 					}
 
 					// Generate demo data
-					$salt1 = YumEncrypt::generateSalt();
-					$salt2 = YumEncrypt::generateSalt();
 					$sql = "INSERT INTO `" . $userTable
-					   ."` (`id`, `username`, `password`, `salt`, `activationKey`, `createtime`, `lastvisit`, `superuser`, `status`) VALUES "
-					   ."(1, 'admin', '" . YumEncrypt::encrypt('admin', $salt1) . "', '" . $salt1 . "', '', " . time() . ", 0, 1, 1),"
-					   ."(2, 'demo', '" . YumEncrypt::encrypt('demo', $salt2) . "', '" . $salt2 . "', '', " . time() . ", 0, 0, 1)";
+					   ."` (`id`, `username`, `password`, `activationKey`, `createtime`, `lastvisit`, `superuser`, `status`) VALUES "
+					   ."(1, 'admin', '" . CPasswordHelper::hashPassword('admin', Yum::module()->passwordHashCost) . "', '', " . time() . ", 0, 1, 1),"
+					   ."(2, 'demo', '" . CPasswordHelper::hashPassword('demo', Yum::module()->passwordHashCost) . "', '', " . time() . ", 0, 0, 1)";
 					$db->createCommand($sql)->execute();
 
 					if (isset($_POST['installMembership'])) {
@@ -413,16 +392,6 @@ class YumInstallController extends YumController
 							."(2, 2, 'demo','demo','demo@example.com')";
 						$db->createCommand($sql)->execute();
 
-						$sql = "INSERT INTO `" . $profileFieldTable . "` "
-							."(`varname`, `title`, `field_type`, `field_size`, `required`, `visible`, `other_validator`) VALUES "
-							."('email', 'E-Mail', 'VARCHAR', 255, 1, 3, 'CEmailValidator'),"
-							."('firstname', 'First name', 'VARCHAR', 255, 1, 3, ''),"
-							."('lastname', 'Last name', 'VARCHAR', 255, 1, 3, ''),"
-							."('street','Street', 'VARCHAR', 255, 0, 3, ''),"
-							."('city','City', 'VARCHAR', 255, 0, 3, ''),"
-							."('about', 'About', 'TEXT', 255, 0, 3, '')";
-						$db->createCommand($sql)->execute();
-
 					}
 
 					// Do it
@@ -452,7 +421,6 @@ class YumInstallController extends YumController
 					'profileTable' => 'profile',
 					'profileCommentTable' => 'profile_comment',
 					'profileVisitTable' => 'profile_visit',
-					'profileFieldTable' => 'profile_field',
 					'userRoleTable' => 'user_role',
 					'usergroupTable' => 'usergroup',
 					'usergroupMessageTable' => 'user_group_message',

@@ -1,4 +1,4 @@
-<?
+<?php
 Yii::setPathOfAlias('YumModule' , dirname(__FILE__));
 Yii::setPathOfAlias('YumComponents' , dirname(__FILE__) . '/components/');
 Yii::setPathOfAlias('YumAssets' , dirname(__FILE__) . '/assets/');
@@ -7,18 +7,37 @@ Yii::import('YumModule.models.*');
 Yii::import('YumModule.controllers.YumController');
 
 class UserModule extends CWebModule {
-	public $version = '0.8';
+	public $version = '0.9-git-wip';
 	public $debug = false;
 
 	//layout related control vars
 	public $baseLayout = 'application.views.layouts.main';
 	public $layout = 'application.modules.user.views.layouts.yum';
-	public $loginLayout = 'application.modules.user.views.layouts.yum';
+	public $loginLayout = 'application.modules.user.views.layouts.login';
 	public $adminLayout = 'application.modules.user.views.layouts.yum';
 	public $enableBootstrap = true;
 
 	public $enableLogging = true;
 	public $enableOnlineStatus = true;
+
+	// Cost for Password generation. See CPasswordHelper::hashPassword() for
+	// details. 
+	public $passwordHashCost = 13;
+
+	// enable pStrength jquery widget
+	public $enablepStrength = true;
+	public $displayPasswordStrength = true;
+
+	public $passwordGeneratorOptions = array(
+			'length' => 8,
+			'capitals' => 1,
+			'numerals' => 1,
+			'symbols' => 1,
+			);
+
+	// Show an Captcha after how many unsuccessful logins? Set to 0 to 
+	// always display an captcha, set to false to disable this function
+	public $captchaAfterUnsuccessfulLogins = 3;
 
 	// After how much seconds without an action does a user gets indicated as
 	// offline? Note that, of course, clicking the Logout button will indicate
@@ -32,6 +51,9 @@ class UserModule extends CWebModule {
 	// set this to true if you do want to access data through a REST api. 
 	// Disabled by default for security reasons.
 	public $enableRESTapi = false;
+
+	// Default cookie Duration is 3600*24*30 (30 days)
+	public $cookieDuration = 2592000;
 
 	// Set this to true to enable RESTful login over the same password as
 	// the admin account. This is set to false, so the password does not
@@ -48,7 +70,6 @@ class UserModule extends CWebModule {
 	public $phpmailer = null; // PHPMailer array options.
 	public $adminEmail = 'admin@example.com';
 
-	public $facebookConfig = false;
 	public $pageSize = 10;
 
 	// if you want the users to be able to edit their profile TEXTAREAs with an
@@ -81,17 +102,6 @@ class UserModule extends CWebModule {
 	public static $dateFormat = "m-d-Y";  //"d.m.Y H:i:s"
 	public $dateTimeFormat = 'm-d-Y G:i:s';  //"d.m.Y H:i:s"
 
-	// Use this to set dhcpOptions if using authentication over LDAP
-	public $ldapOptions = array(
-			'ldap_host' => '',
-			'ldap_port' => '',
-			'ldap_basedn' => '',
-			'ldap_protocol' => '',
-			'ldap_autocreate' => '',
-			'ldap_tls' => '',
-			'ldap_transfer_attr' => '',
-			'ldap_transfer_pw' => '');
-
 	private $_urls=array(
 			'login'=>array('//user/user'),
 			'return'=>array('//user/user/index'),
@@ -109,19 +119,24 @@ class UserModule extends CWebModule {
 			'activate' => '/user/resend_activation',
 			'message' => '/user/message',
 			'passwordForm' => '/user/_activation_passwordform',
+			'changePassword' => 'changepassword',
 			'messageCompose' =>'application.modules.message.views.message.compose');
 
 	// LoginType :
-	// If you want to activate many types of login just sum up the values below and assign them to 'loginType' in
-	// the user module configuration.
-	const LOGIN_BY_USERNAME		= 1;
-	const LOGIN_BY_EMAIL		= 2;
-	const LOGIN_BY_OPENID		= 4;
-	const LOGIN_BY_FACEBOOK		= 8;
-	const LOGIN_BY_TWITTER		= 16;
-	const LOGIN_BY_LDAP			= 32;
-	// Allow login only by username by default.
+	// If you want to activate many types of login just sum up the values below 
+	// and assign them to 'loginType' in the user module configuration. For 
+	// example, to allow login by username, email and hybridauth, set this 
+	// value to 7. Defaults to only allow login by username (value set to 1)
+	const LOGIN_BY_USERNAME	= 1;
+	const LOGIN_BY_EMAIL = 2;
+	const LOGIN_BY_HYBRIDAUTH	= 4;
 	public $loginType = 1;
+
+	public $hybridAuthConfigFile =  'protected/config/hybridauth.php';
+
+	// see user/vendors/hybridauth/Hybrid/Providers for supported providers.
+	// example: array('facebook', 'twitter')
+	public $hybridAuthProviders = array();
 
 	/**
 	 * Defines all Controllers of the User Management Module and maps them to
@@ -141,31 +156,13 @@ class UserModule extends CWebModule {
 		'login'=>array('class'=>'YumModule.controllers.YumUserController')
 	);
 
-	// Table names
-	private $_tables = array(
-			'user' => 'user',
-			'privacySetting' => 'privacysetting',
-			'translation' => 'translation',
-			'message' => 'message',
-			'usergroup' => 'usergroup',
-			'usergroupMessage' => 'usergroup_message',
-			'profile' => 'profile',
-			'profileComment' => 'profile_comment',
-			'profileVisit' => 'profile_visit',
-			'profileField' => 'profile_field',
-			'role' => 'role',
-			'userRole' => 'user_role',
-			'membership' => 'membership',
-			'payment' => 'payment',
-			'friendship' => 'friendship',
-			'permission' => 'permission',
-			'action' => 'action',
-			);
+	public $userTable = '{{user}}';
+	public $translationTable = '{{translation}}';
 
 	public $usernameRequirements=array(
 		'minLen'=>3,
 		'maxLen'=>30,
-		'match' => '/^[A-Za-z0-9_-]+$/u',
+		'match' => '/^[A-Za-z0-9_-\s]+$/u',
 		'dontMatchMessage' => 'Incorrect symbol\'s. (A-z0-9)',
 	);
 
@@ -180,7 +177,7 @@ class UserModule extends CWebModule {
 
 
 	/**
-	 * Implements support for getting URLs, Tables and Views
+	 * Implements support for getting URLs and Views
 	 * @param string $name
 	 */
 	public function __get($name) {
@@ -191,10 +188,6 @@ class UserModule extends CWebModule {
 		if(substr($name, -4) === 'View')
 			if(isset($this->_views[substr($name, 0, -4)]))
 				return $this->_views[substr($name, 0, -4)];
-
-		if(substr($name, -5) === 'Table')
-			if(isset($this->_tables[substr($name, 0, -5)]))
-				return $this->_tables[substr($name, 0, -5)];
 
 		return parent::__get($name);
 	}
@@ -212,10 +205,6 @@ class UserModule extends CWebModule {
 		if(substr($name,-4)==='View') {
 			if(isset($this->_views[substr($name,0,-4)]))
 				$this->_views[substr($name,0,-4)]=$value;
-		}
-		if(substr($name,-5)==='Table') {
-			if(isset($this->_tables[substr($name,0,-5)]))
-				$this->_tables[substr($name,0,-5)]=$value;
 		}
 
 		//parent::__set($name,$value);

@@ -47,6 +47,7 @@ return array(
             'userNameColumn' => 'username', // the name of the user name column.
 		),
         */
+        'avatar' => array(),
         'user' => array(
             'debug' => false,
             'userTable' => 'user',
@@ -65,7 +66,7 @@ return array(
         ),
         'profile' => array(
             'privacySettingTable' => 'privacysettings',
-            'profileFieldTable' => 'profile_fields',
+            //'profileFieldTable' => 'profile_fields',
             'profileTable' => 'profiles',
             'profileCommentTable' => 'profile_comments',
             'profileVisitTable' => 'profile_visits',

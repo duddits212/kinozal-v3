@@ -43,7 +43,6 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
     'items'=>array(
         array(
             'class'=>'bootstrap.widgets.TbMenu',
-//            'type'=>'tabs',
             'items'=>$items,
         ),
     ),

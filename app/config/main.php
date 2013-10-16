@@ -44,6 +44,7 @@ return array(
             ),
         ),
 		'db' => array(
+            'tablePrefix' => '',
 			'connectionString' => 'mysql:host=localhost;dbname=kino_v3',
 			'username' => 'kino_front',
 			'password' => 'hsM7Afx5ym4dMjQt',
