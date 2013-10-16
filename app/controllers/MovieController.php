@@ -128,7 +128,7 @@ class MovieController extends Controller
 		));
 	}
 
-    public function actionFlavor($id=NULL, $page=1, $sort='post_date.desc')
+    public function actionFlavor($fid=1, $page=1, $sort='post_date.desc')
     {
         if(Yii::app()->request->isAjaxRequest) {
             if (!isset($_GET['page'])) {
@@ -140,32 +140,32 @@ class MovieController extends Controller
             Yii::app()->user->setState('fltCountry', NULL);
         }
 
-        if (isset($_GET['id'])) {
-            Yii::app()->user->setState('lastFlavor', $id);
+        if (isset($_GET['fid'])) {
+            Yii::app()->user->setState('lastFlavor', $fid);
         }
 
 		if (isset($_GET['page'])) {
-			Yii::app()->user->setState('menuPage' . $id, $page);
+			Yii::app()->user->setState('menuPage' . $fid, $page);
 		} else {
-            $page = Yii::app()->user->getState('menuPage' . $id);
+            $page = Yii::app()->user->getState('menuPage' . $fid);
             $_GET['page'] = isset($page) ? $page : 1;
-            Yii::app()->user->setState('menuPage' . $id, $_GET['page']);
+            Yii::app()->user->setState('menuPage' . $fid, $_GET['page']);
         }
 		if (isset($_GET['sort'])) {
-			Yii::app()->user->setState('menuSort' . $id, $sort);
+			Yii::app()->user->setState('menuSort' . $fid, $sort);
 		} else {
-			$sort = Yii::app()->user->getState('menuSort' . $id);
+			$sort = Yii::app()->user->getState('menuSort' . $fid);
 			 if ( isset($sort) ) {
 				$_GET['sort'] = $sort;
             }
         }
         if (!Yii::app()->request->isAjaxRequest) {
             $this->render('index',
-                array('dataProvider'=>Movie::model()->searchByFlavor($id))
+                array('dataProvider'=>Movie::model()->searchByFlavor($fid))
             );
         } else {
             $this->render('index', array(
-                'dataProvider'=>Movie::model()->searchByFlavor($id),
+                'dataProvider'=>Movie::model()->searchByFlavor($fid),
             ));
         }
     }

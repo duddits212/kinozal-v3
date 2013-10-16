@@ -209,9 +209,13 @@ class Movie extends CActiveRecord
 
     public function searchByFlavor($flavor=1)
     {
-
+/*
         if (Yii::app()->user->getState('fltRubric'))
             return $this->filterByRubric(unserialize(Yii::app()->user->getState('fltRubric')));
+*/
+
+		if (Yii::app()->user->getState('lastFlavor'))
+			$flavor = Yii::app()->user->getState('lastFlavor');
 
         $criteria=new CDbCriteria;
         $sort = new CSort('Movie');
@@ -234,7 +238,66 @@ class Movie extends CActiveRecord
             }
         }
 
-        $criteria->with = array('movieRubrics');
+		$together = array('movieRubrics');
+
+/*  нужна логическая И */
+        $rubric = unserialize(Yii::app()->user->getState('fltRubric'));
+        $rubric = $rubric ? $rubric : array();
+        $genre = unserialize(Yii::app()->user->getState('fltGenre'));
+        $genre = $genre ? $genre : array();
+        $country = unserialize(Yii::app()->user->getState('fltCountry'));
+        $country = $country ? $country : array();
+
+		if (count($rubric) + count($genre) + count($country) > 0) {
+            $where_str2 = '';
+
+			if (count($rubric)>0) {
+				array_push($together, 'movieRubrics');
+                for ($i=0; $i<count($rubric); $i++) {
+                    if ($where_str2 == '') {
+                        $where_str2 = '( rid=' . $rubric[$i] . ' ';
+                    } else {
+                        $where_str2 .= 'or rid=' . $rubric[$i] . ' ';
+                    }
+                }
+                $where_str2 .= ')';
+            }
+
+			if (count($genre)>0) {
+                if (count($rubric)>0)
+                    $where_str2 .= 'and (';
+				array_push($together, 'movieGenres');
+                for ($i=0; $i<count($genre); $i++) {
+                    if ($i == 0) {
+                        $where_str2 .= 'gid=' . $genre[$i] . ' ';
+                    } else {
+                        $where_str2 .= 'or gid=' . $genre[$i] . ' ';
+                    }
+                }
+                $where_str2 .= ')';
+            }
+
+			if (count($country)>0) {
+                if (count($rubric)+count($genre)>0)
+                    $where_str2 .= 'and (';
+				array_push($together, 'movieCountries');
+                for ($i=0; $i<count($country); $i++) {
+                    if ($i == 0) {
+                        $where_str2 .= 'cid=' . $country[$i] . ' ';
+                    } else {
+                        $where_str2 .= 'or cid=' . $country[$i] . ' ';
+                    }
+                }
+                $where_str2 .= ')';
+            }
+
+            if ($where_string != '')
+			    $where_string = '(' . $where_string . ') and (' . $where_str2 . ')';
+            else
+                $where_string = $where_str2;
+		}
+
+        $criteria->with = $together;
         $criteria->together = true;
         $criteria->condition = $where_string;
         return new CActiveDataProvider($this, array(
@@ -245,6 +308,8 @@ class Movie extends CActiveRecord
     }
 
     private function applyFilters() {
+
+        return $this->searchByFlavor(1);
 
         $rubric = unserialize(Yii::app()->user->getState('fltRubric'));
         $rubric = $rubric ? $rubric : array();
