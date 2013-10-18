@@ -209,11 +209,6 @@ class Movie extends CActiveRecord
 
     public function searchByFlavor($flavor=1)
     {
-/*
-        if (Yii::app()->user->getState('fltRubric'))
-            return $this->filterByRubric(unserialize(Yii::app()->user->getState('fltRubric')));
-*/
-
 		if (Yii::app()->user->getState('lastFlavor'))
 			$flavor = Yii::app()->user->getState('lastFlavor');
 
@@ -274,7 +269,8 @@ class Movie extends CActiveRecord
                         $where_str2 .= 'or gid=' . $genre[$i] . ' ';
                     }
                 }
-                $where_str2 .= ')';
+                if (count($rubric)>0)
+                    $where_str2 .= ')';
             }
 
 			if (count($country)>0) {
@@ -288,7 +284,8 @@ class Movie extends CActiveRecord
                         $where_str2 .= 'or cid=' . $country[$i] . ' ';
                     }
                 }
-                $where_str2 .= ')';
+                if (count($rubric)+count($genre)>0)
+                    $where_str2 .= ')';
             }
 
             if ($where_string != '')
@@ -307,80 +304,18 @@ class Movie extends CActiveRecord
         ));
     }
 
-    private function applyFilters() {
-
-        return $this->searchByFlavor(1);
-
-        $rubric = unserialize(Yii::app()->user->getState('fltRubric'));
-        $rubric = $rubric ? $rubric : array();
-        $genre = unserialize(Yii::app()->user->getState('fltGenre'));
-        $genre = $genre ? $genre : array();
-        $country = unserialize(Yii::app()->user->getState('fltCountry'));
-        $country = $country ? $country : array();
-
-        $criteria = new CDbCriteria;
-        $sort = new CSort('Movie');
-        $sort->attributes = array('caption','orig_caption','post_date','imdb_rating');
-        $sort->defaultOrder = 'post_date DESC';
-        $sort->applyOrder($criteria);
-        $together = array();
-        $where_string='';
-
-        if (count($rubric)>0)
-            array_push($together, 'movieRubrics');
-        for ($i=0; $i<count($rubric); $i++) {
-            if ($where_string == '') {
-                $where_string = 'rid=' . $rubric[$i] . ' ';
-            } else {
-                $where_string .= 'or rid=' . $rubric[$i] . ' ';
-            }
-        }
-
-        if (count($genre)>0)
-            array_push($together, 'movieGenres');
-        for ($i=0; $i<count($genre); $i++) {
-            if ($where_string == '') {
-                $where_string = 'gid=' . $genre[$i] . ' ';
-            } else {
-                $where_string .= 'or gid=' . $genre[$i] . ' ';
-            }
-        }
-
-        if (count($country)>0)
-            array_push($together, 'movieCountries');
-        for ($i=0; $i<count($country); $i++) {
-            if ($where_string == '') {
-                $where_string = 'cid=' . $country[$i] . ' ';
-            } else {
-                $where_string .= 'or cid=' . $country[$i] . ' ';
-            }
-        }
-
-
-
-        $criteria->with = $together;
-        $criteria->together = true;
-        $criteria->condition = $where_string;
-
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-            'sort'=>$sort,
-            'pagination'=>array('pageSize'=>10,'pageVar'=>'page'),
-        ));
-    }
-
     public function filterByRubric(array $rubric = array()) {
         Yii::app()->user->setState('fltRubric', serialize($rubric));
-        return $this->applyFilters();
+        return $this->searchByFlavor();
     }
 
     public function filterByGenre(array $genre = array()) {
         Yii::app()->user->setState('fltGenre', serialize($genre));
-        return $this->applyFilters();
+        return $this->searchByFlavor();
     }
 
     public function filterByCountry(array $country = array()) {
         Yii::app()->user->setState('fltCountry', serialize($country));
-        return $this->applyFilters();
+        return $this->searchByFlavor();
     }
 }

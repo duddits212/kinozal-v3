@@ -19,7 +19,9 @@ $this->widget('ext.select2.ESelect2', array(
     'data' => CHtml::listData(MovieRubricName::model()->findAll(array('order'=>'name')), 'id', 'name')
 ));
 
-?><br />
+?>
+
+<br />
 
 <?php
 //    echo CHtml::textField('filterGenre','',array('class'=>'span5'));
@@ -51,8 +53,9 @@ $this->widget('ext.select2.ESelect2', array(
         'data' => CHtml::listData(MovieGenreName::model()->findAll(array('order'=>'name')), 'id', 'name')
     ));
 //    $this->endWidget();
-?><br />
+?>
 
+<br />
 
 <?php
 //    $country = new Country();
@@ -74,4 +77,6 @@ $this->widget('ext.select2.ESelect2', array(
         ),
         'data' => CHtml::listData(Country::model()->findAll(array('order'=>'name')), 'id', 'name')
     ));
-?><br />
+?>
+
+<br />

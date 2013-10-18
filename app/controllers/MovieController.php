@@ -17,6 +17,7 @@ class MovieController extends Controller
 			'accessControl', // perform access control for CRUD operations
 			'postOnly + delete', // we only allow deletion via POST request
             'ajaxOnly + filterByRubric',
+//            'ajaxOnly + Autocomplete'
 		);
 	}
 
@@ -29,7 +30,7 @@ class MovieController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'flavor', 'filterByRubric', 'filterByGenre', 'filterByCountry'),
+				'actions'=>array('index','view', 'flavor', 'filterByRubric', 'filterByGenre', 'filterByCountry', 'Autocomplete'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -127,6 +128,26 @@ class MovieController extends Controller
 			'dataProvider'=>Movie::model()->index(),
 		));
 	}
+
+    public function actionAutocomplete($str)
+    {
+        $str = Yii::app()->getRequest()->getParam('str');
+
+        //if(Yii::app()->request->isAjaxRequest && $str) {
+            $movies = Movie::model()->findAll(array('condition'=>"orig_caption LIKE '%$str%' or caption LIKE '%$str%'"));
+            $result = array();
+            foreach($movies as $obj) {
+                //$result[] = array('caption'=>$obj['caption'], 'o_caption'=>$obj['orig_caption'], 'year'=>$obj['produce_date']);
+                //$result[] = array('caption'=>$obj['caption']);
+                $label = $obj['caption'] . ' -- ' . $obj['orig_caption'];
+                //$result[] = array('id'=>$obj['id'], 'label'=>'пизда', 'value'=>$label);
+                $result[] = array('id'=>$obj['id'], 'caption'=>$obj['caption'], 'o_caption'=>$obj['orig_caption'], 'year'=>$obj['produce_date'], 'value'=>$label);
+
+            }
+            echo CJSON::encode($result);
+            Yii::app()->end();
+        //}
+    }
 
     public function actionFlavor($fid=1, $page=1, $sort='post_date.desc')
     {

@@ -135,6 +135,11 @@ return array(
 		'bootstrap' => array(
 			'class' => 'bootstrap.components.TbApi',
 		),
+
+        'yiiwheels' => array(
+            'class' => 'yiiwheels.YiiWheels',
+        ),
+
 		// uncomment the following to enable the image extension
 		'image' => array(
 			'class' => 'vendor.crisu83.yii-image.components.ImageManager',
